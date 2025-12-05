@@ -82,6 +82,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("static/js");
   eleventyConfig.addPassthroughCopy("static/fonts");
   eleventyConfig.addPassthroughCopy("admin/");
+  eleventyConfig.addPassthroughCopy("manifest.json");
+  eleventyConfig.addPassthroughCopy("browserconfig.xml");
 
   /* Markdown Plugins */
   let markdownIt = require("markdown-it");

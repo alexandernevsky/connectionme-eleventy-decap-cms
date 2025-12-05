@@ -1,5 +1,6 @@
 {
   "title": "Connection ME",
   "description": "Консалтинг по банковским, юридическим и налоговым вопросам для бизнеса и частных клиентов",
-  "url": "https://connectionme.netlify.app"
+  "url": "https://connectionme.netlify.app",
+  "author": "Connection ME"
 }

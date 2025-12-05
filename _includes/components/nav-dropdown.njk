@@ -1,0 +1,85 @@
+{# Дропдаун меню навигации - временно отключен #}
+<div data-hover="true" data-delay="300" data-w-id="73afa81c-448a-a8fb-c68b-ac680d82898c" class="uui-navbar01_menu-dropdown w-dropdown">
+  <div class="uui-navbar01_dropdown-toggle w-dropdown-toggle">
+    <div class="uui-dropdown-icon w-embed"><svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg></div>
+    <div>Other jurisdictions</div>
+  </div>
+  <nav class="uui-navbar01_dropdown-list w-dropdown-list">
+    <div class="uui-navbar01_container">
+      <div class="uui-navbar01_dropdown-content">
+        <div class="uui-navbar01_dropdown-content-left">
+          <div class="uui-navbar01_dropdown-link-list">
+            <h4 class="uui-navbar01_heading">Услуги в ОАЭ</h4>
+            <a href="{{ '/blog' | url }}" class="uui-navbar01_dropdown-link w-inline-block">
+              <div class="uui-navbar01_icon-wrapper">
+                <div class="uui-icon-1x1-xsmall w-embed"><svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 19V16H7C5.34315 16 4 17.3431 4 19M8.8 22H16.8C17.9201 22 18.4802 22 18.908 21.782C19.2843 21.5903 19.5903 21.2843 19.782 20.908C20 20.4802 20 19.9201 20 18.8V5.2C20 4.07989 20 3.51984 19.782 3.09202C19.5903 2.71569 19.2843 2.40973 18.908 2.21799C18.4802 2 17.9201 2 16.8 2H8.8C7.11984 2 6.27976 2 5.63803 2.32698C5.07354 2.6146 4.6146 3.07354 4.32698 3.63803C4 4.27976 4 5.11984 4 6.8V17.2C4 18.8802 4 19.7202 4.32698 20.362C4.6146 20.9265 5.07354 21.3854 5.63803 21.673C6.27976 22 7.11984 22 8.8 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </div>
+              <div class="uui-navbar01_item-right">
+                <div class="uui-navbar01_item-heading">Blog</div>
+                <div class="uui-text-size-small d2q_hide-mobile-landscape d2q_inter-font">The latest industry news, updates and info.</div>
+              </div>
+            </a>
+          </div>
+          <div class="uui-navbar01_dropdown-link-list">
+            <h4 class="uui-navbar01_heading">Другие юрисдикции</h4>
+            <a href="#" class="uui-navbar01_dropdown-link w-inline-block">
+              <div class="uui-navbar01_icon-wrapper">
+                <div class="uui-icon-1x1-xsmall text-color-primary600 w-embed"><svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 21L4 4M4 13H11.4C11.9601 13 12.2401 13 12.454 12.891C12.6422 12.7951 12.7951 12.6422 12.891 12.454C13 12.2401 13 11.9601 13 11.4V4.6C13 4.03995 13 3.75992 12.891 3.54601C12.7951 3.35785 12.6422 3.20487 12.454 3.10899C12.2401 3 11.9601 3 11.4 3H5.6C5.03995 3 4.75992 3 4.54601 3.10899C4.35785 3.20487 4.20487 3.35785 4.10899 3.54601C4 3.75992 4 4.03995 4 4.6V13ZM13 5H19.4C19.9601 5 20.2401 5 20.454 5.10899C20.6422 5.20487 20.7951 5.35785 20.891 5.54601C21 5.75992 21 6.03995 21 6.6V13.4C21 13.9601 21 14.2401 20.891 14.454C20.7951 14.6422 20.6422 14.7951 20.454 14.891C20.2401 15 19.9601 15 19.4 15H14.6C14.0399 15 13.7599 15 13.546 14.891C13.3578 14.7951 13.2049 14.6422 13.109 14.454C13 14.2401 13 13.9601 13 13.4V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </div>
+              <div class="uui-navbar01_item-right">
+                <div class="uui-navbar01_item-heading">Монтенегро</div>
+                <div class="uui-text-size-small d2q_hide-mobile-landscape d2q_inter-font">Learn about our story and our mission statement.</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="uui-navbar01_dropdown-content-right">
+          <div class="uui-navbar01_dropdown-content-wrapper">
+            <h4 class="uui-navbar01_dropdown-content-heading">Новости</h4>
+            <div class="uui-navbar01_dropdown-blog-list">
+              {% set recentPosts = collections.posts | reverse | slice(0, 2) %}
+              {% for post in recentPosts %}
+              <a href="{{ post.url | url }}" class="uui-navbar01_blog-item w-inline-block">
+                <div class="uui-navbar01_blog-image-wrapper">
+                  {% if post.data.image %}
+                  <img src="{{ post.data.image }}" loading="eager" alt="{{ post.data.title }}" class="uui-navbar01_blog-image">
+                  {% else %}
+                  <img src="/static/img/nav-image-06.jpg" loading="eager" alt="{{ post.data.title }}" class="uui-navbar01_blog-image">
+                  {% endif %}
+                </div>
+                <div class="uui-navbar01_large-item-content">
+                  <div class="uui-navbar01_item-heading">{{ post.data.title }}</div>
+                  <div class="uui-text-size-small d2q_inter-font">{{ post.data.description or post.templateContent | striptags | truncate(80) }}</div>
+                  <div class="uui-navbar01_item-button-wrapper">
+                    <div class="uui-button-row">
+                      <div class="uui-button-link is-button-xsmall">
+                        <div>Читать →</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+            <div id="w-node-_73afa81c-448a-a8fb-c68b-ac680d828a00-0d828982" class="uui-navbar01_dropdown-content-button-wrapper">
+              <a id="w-node-_73afa81c-448a-a8fb-c68b-ac680d828a01-0d828982" data-w-id="73afa81c-448a-a8fb-c68b-ac680d828a01" href="{{ '/blog' | url }}" class="uui-button-link is-button-xsmall w-inline-block">
+                <div>Все новости</div>
+                <div class="uui-button-icon w-embed"><svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.16699 9.99996H15.8337M15.8337 9.99996L10.0003 4.16663M15.8337 9.99996L10.0003 15.8333" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </a>
+            </div>
+          </div>
+          <div class="uui-navbar01_dropdown-right-overlay-absolute"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+
