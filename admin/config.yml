@@ -53,4 +53,6 @@ collections:
           - { label: "Описание", name: "description", widget: "text", required: false }
           - { label: "Текст первой кнопки", name: "button1Text", widget: "string", required: false }
           - { label: "Текст второй кнопки", name: "button2Text", widget: "string", required: false }
+      - { label: "Показать секцию Testimonial (отзывы)", name: "showTestimonial", widget: "boolean", default: false, required: false, hint: "Включить/выключить секцию с отзывами клиентов на странице" }
+      - { label: "Показать секцию Features (возможности)", name: "showFeatures", widget: "boolean", default: false, required: false, hint: "Включить/выключить секцию с возможностями/функциями на странице" }
       - { label: "Body", name: "body", widget: "markdown" }
