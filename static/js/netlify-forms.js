@@ -1,81 +1,101 @@
 // Netlify Forms Handler
-// Предотвращает перехват форм Webflow JS и позволяет Netlify обрабатывать их стандартным способом
-// Если нужна AJAX отправка, можно раскомментировать соответствующий код
+// Полностью отключает Webflow JS обработку для форм с data-netlify="true"
+// Позволяет формам отправляться стандартным способом, как в оригинальном boilerplate
 
 (function() {
-  // Отключаем перехват форм Webflow JS для форм с data-netlify="true"
-  // Используем capture phase чтобы перехватить событие раньше Webflow
+  'use strict';
+  
+  // Функция для полного отключения Webflow обработки формы
+  function disableWebflowForm(form) {
+    // Удаляем все обработчики событий от Webflow
+    if (form._wForm) {
+      try {
+        delete form._wForm;
+      } catch(e) {}
+    }
+    
+    // Удаляем классы, которые Webflow использует для обработки
+    form.classList.remove('w-form');
+    const wrapper = form.closest('.w-form');
+    if (wrapper) {
+      wrapper.classList.remove('w-form');
+    }
+    
+    // Удаляем data-атрибуты Webflow
+    form.removeAttribute('data-wf-page-id');
+    form.removeAttribute('data-wf-element-id');
+    
+    // Убеждаемся, что форма имеет правильный action
+    if (!form.getAttribute('action')) {
+      form.setAttribute('action', window.location.pathname);
+    }
+  }
+  
+  // Перехватываем событие submit ДО всех других обработчиков
   document.addEventListener('submit', function(event) {
     const form = event.target;
+    
     // Проверяем, что это форма с data-netlify="true"
     if (form && form.tagName === 'FORM' && form.hasAttribute('data-netlify')) {
-      console.log('Netlify Forms: Allowing standard submission for', form.name || form.id);
-      // Останавливаем распространение события, чтобы Webflow JS не перехватил форму
-      event.stopPropagation();
+      console.log('Netlify Forms: Intercepted form', form.name || form.id);
+      
+      // Полностью останавливаем распространение события
       event.stopImmediatePropagation();
-      // НЕ вызываем preventDefault() - позволяем форме отправиться стандартным способом
-      // Netlify автоматически обработает форму на сервере
+      event.stopPropagation();
+      
+      // Отключаем Webflow обработку
+      disableWebflowForm(form);
+      
+      // НЕ вызываем preventDefault() - позволяем стандартную отправку
+      // Форма отправится стандартным HTML способом на Netlify
+      
+      console.log('Netlify Forms: Form will submit to', form.action || window.location.pathname);
     }
-  }, true); // true = capture phase, перехватываем раньше других
+  }, true); // capture phase - перехватываем раньше всех
   
-  console.log('Netlify Forms handler initialized - using standard form submission');
-
-  // Также инициализируем после загрузки DOM для форм, которые могут быть добавлены динамически
+  // Инициализируем после загрузки DOM
   function initNetlifyForms() {
     const netlifyForms = document.querySelectorAll('form[data-netlify="true"]');
-    console.log('Netlify Forms: Found', netlifyForms.length, 'forms with data-netlify="true"');
+    console.log('Netlify Forms: Found', netlifyForms.length, 'forms');
     
     netlifyForms.forEach(function(form) {
-      // Убеждаемся, что форма еще не обрабатывается
-      if (!form.hasAttribute('data-netlify-handled')) {
-        form.setAttribute('data-netlify-handled', 'true');
-        console.log('Netlify Forms: Registered form', form.name || form.id);
-        
-        // Убираем обработчики Webflow, если они есть
-        // Webflow обычно добавляет обработчики через jQuery
-        if (typeof jQuery !== 'undefined' && jQuery.fn && jQuery.fn.wForm) {
-          try {
-            // Отключаем Webflow обработку для этой формы
-            form.classList.remove('w-form');
-            const wrapper = form.closest('.w-form');
-            if (wrapper) {
-              wrapper.classList.remove('w-form');
-            }
-          } catch(e) {
-            console.warn('Could not disable Webflow form handler:', e);
-          }
-        }
+      // Отключаем Webflow обработку для всех найденных форм
+      disableWebflowForm(form);
+      
+      // Убеждаемся, что action установлен
+      if (!form.getAttribute('action')) {
+        form.setAttribute('action', window.location.pathname);
       }
+      
+      console.log('Netlify Forms: Configured form', form.name || form.id, '->', form.action);
     });
   }
-
-  // Инициализируем после загрузки DOM
+  
+  // Инициализируем сразу и после загрузки DOM
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initNetlifyForms);
   } else {
     initNetlifyForms();
   }
   
-  // Формы отправляются стандартным способом (как в оригинальном boilerplate)
-  // Netlify автоматически обработает их на сервере
-  // После успешной отправки Netlify перенаправит на страницу с параметром ?success=true
-  // Можно добавить обработку этого параметра для показа сообщения об успехе
-  
-  // Проверяем URL на наличие параметра успешной отправки
+  // Обработка успешной отправки (Netlify добавляет ?success=true в URL)
   if (window.location.search.includes('success=true')) {
-    const forms = document.querySelectorAll('form[data-netlify="true"]');
-    forms.forEach(function(form) {
-      const formWrapper = form.closest('.w-form');
-      if (formWrapper) {
-        const successMsg = formWrapper.querySelector('.w-form-done, .success-message, .success-message-2');
-        if (successMsg) {
-          successMsg.style.display = 'block';
-          formWrapper.classList.add('w-form-done');
-          // Прокручиваем к сообщению
-          successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    setTimeout(function() {
+      const forms = document.querySelectorAll('form[data-netlify="true"]');
+      forms.forEach(function(form) {
+        const formWrapper = form.closest('.w-form') || form.parentElement;
+        if (formWrapper) {
+          const successMsg = formWrapper.querySelector('.w-form-done, .success-message, .success-message-2');
+          if (successMsg) {
+            successMsg.style.display = 'block';
+            formWrapper.classList.add('w-form-done');
+            successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
         }
-      }
-    });
+      });
+    }, 100);
   }
+  
+  console.log('Netlify Forms handler initialized');
 })();
 
