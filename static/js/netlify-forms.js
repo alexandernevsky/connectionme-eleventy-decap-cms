@@ -1,126 +1,81 @@
-// Netlify Forms AJAX Handler
-// Обрабатывает отправку форм с data-netlify="true" через AJAX
+// Netlify Forms Handler
+// Предотвращает перехват форм Webflow JS и позволяет Netlify обрабатывать их стандартным способом
+// Если нужна AJAX отправка, можно раскомментировать соответствующий код
 
 (function() {
-  // Ждем загрузки DOM
+  // Отключаем перехват форм Webflow JS для форм с data-netlify="true"
+  // Используем capture phase чтобы перехватить событие раньше Webflow
+  document.addEventListener('submit', function(event) {
+    const form = event.target;
+    // Проверяем, что это форма с data-netlify="true"
+    if (form && form.tagName === 'FORM' && form.hasAttribute('data-netlify')) {
+      console.log('Netlify Forms: Allowing standard submission for', form.name || form.id);
+      // Останавливаем распространение события, чтобы Webflow JS не перехватил форму
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      // НЕ вызываем preventDefault() - позволяем форме отправиться стандартным способом
+      // Netlify автоматически обработает форму на сервере
+    }
+  }, true); // true = capture phase, перехватываем раньше других
+  
+  console.log('Netlify Forms handler initialized - using standard form submission');
+
+  // Также инициализируем после загрузки DOM для форм, которые могут быть добавлены динамически
+  function initNetlifyForms() {
+    const netlifyForms = document.querySelectorAll('form[data-netlify="true"]');
+    console.log('Netlify Forms: Found', netlifyForms.length, 'forms with data-netlify="true"');
+    
+    netlifyForms.forEach(function(form) {
+      // Убеждаемся, что форма еще не обрабатывается
+      if (!form.hasAttribute('data-netlify-handled')) {
+        form.setAttribute('data-netlify-handled', 'true');
+        console.log('Netlify Forms: Registered form', form.name || form.id);
+        
+        // Убираем обработчики Webflow, если они есть
+        // Webflow обычно добавляет обработчики через jQuery
+        if (typeof jQuery !== 'undefined' && jQuery.fn && jQuery.fn.wForm) {
+          try {
+            // Отключаем Webflow обработку для этой формы
+            form.classList.remove('w-form');
+            const wrapper = form.closest('.w-form');
+            if (wrapper) {
+              wrapper.classList.remove('w-form');
+            }
+          } catch(e) {
+            console.warn('Could not disable Webflow form handler:', e);
+          }
+        }
+      }
+    });
+  }
+
+  // Инициализируем после загрузки DOM
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initNetlifyForms);
   } else {
     initNetlifyForms();
   }
-
-  function initNetlifyForms() {
-    // Находим все формы с data-netlify="true"
-    const netlifyForms = document.querySelectorAll('form[data-netlify="true"]');
-    
-    netlifyForms.forEach(function(form) {
-      // Предотвращаем стандартную отправку формы
-      form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        handleFormSubmit(form);
-      });
-    });
-  }
-
-  function handleFormSubmit(form) {
-    const formWrapper = form.closest('.w-form');
-    const submitButton = form.querySelector('input[type="submit"], button[type="submit"]');
-    const originalValue = submitButton ? submitButton.value : '';
-    const waitText = submitButton ? submitButton.getAttribute('data-wait') : 'Please wait...';
-    
-    // Показываем состояние загрузки
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.value = waitText || 'Please wait...';
-    }
-    
-    // Скрываем предыдущие сообщения
-    if (formWrapper) {
-      const successMsg = formWrapper.querySelector('.w-form-done, .success-message, .success-message-2');
-      const errorMsg = formWrapper.querySelector('.w-form-fail, .error-message, .error-message-2');
-      if (successMsg) {
-        successMsg.style.display = 'none';
-        formWrapper.classList.remove('w-form-done');
-      }
-      if (errorMsg) {
-        errorMsg.style.display = 'none';
-        formWrapper.classList.remove('w-form-fail');
-      }
-    }
-    
-    // Создаем FormData
-    const formData = new FormData(form);
-    
-    // Отправляем через fetch
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(formData).toString()
-    })
-    .then(function(response) {
-      // Netlify возвращает 200 или 302 при успешной отправке
-      if (response.ok || response.status === 302) {
-        showSuccess(formWrapper);
-        form.reset();
-      } else {
-        showError(formWrapper);
-      }
-    })
-    .catch(function(error) {
-      console.error('Form submission error:', error);
-      showError(formWrapper);
-    })
-    .finally(function() {
-      // Восстанавливаем кнопку
-      if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.value = originalValue;
+  
+  // Формы отправляются стандартным способом (как в оригинальном boilerplate)
+  // Netlify автоматически обработает их на сервере
+  // После успешной отправки Netlify перенаправит на страницу с параметром ?success=true
+  // Можно добавить обработку этого параметра для показа сообщения об успехе
+  
+  // Проверяем URL на наличие параметра успешной отправки
+  if (window.location.search.includes('success=true')) {
+    const forms = document.querySelectorAll('form[data-netlify="true"]');
+    forms.forEach(function(form) {
+      const formWrapper = form.closest('.w-form');
+      if (formWrapper) {
+        const successMsg = formWrapper.querySelector('.w-form-done, .success-message, .success-message-2');
+        if (successMsg) {
+          successMsg.style.display = 'block';
+          formWrapper.classList.add('w-form-done');
+          // Прокручиваем к сообщению
+          successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       }
     });
-  }
-
-  function showSuccess(formWrapper) {
-    if (!formWrapper) {
-      // Если нет обертки, просто показываем alert
-      alert('Thank you! Your submission has been received!');
-      return;
-    }
-    
-    const successMsg = formWrapper.querySelector('.w-form-done, .success-message, .success-message-2');
-    const errorMsg = formWrapper.querySelector('.w-form-fail, .error-message, .error-message-2');
-    
-    if (successMsg) {
-      successMsg.style.display = 'block';
-      // Добавляем класс для анимации Webflow
-      formWrapper.classList.add('w-form-done');
-      formWrapper.classList.remove('w-form-fail');
-    }
-    
-    if (errorMsg) {
-      errorMsg.style.display = 'none';
-    }
-  }
-
-  function showError(formWrapper) {
-    if (!formWrapper) {
-      // Если нет обертки, показываем alert
-      alert('Oops! Something went wrong while submitting the form.');
-      return;
-    }
-    
-    const successMsg = formWrapper.querySelector('.w-form-done, .success-message, .success-message-2');
-    const errorMsg = formWrapper.querySelector('.w-form-fail, .error-message, .error-message-2');
-    
-    if (errorMsg) {
-      errorMsg.style.display = 'block';
-      // Добавляем класс для анимации Webflow
-      formWrapper.classList.add('w-form-fail');
-      formWrapper.classList.remove('w-form-done');
-    }
-    
-    if (successMsg) {
-      successMsg.style.display = 'none';
-    }
   }
 })();
 
