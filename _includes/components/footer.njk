@@ -13,8 +13,12 @@
             </a>
             <div class="uui-text-size-medium">Подпишитесь на нашу рассылку, чтобы быть в курсе новостей и обновлений</div>
             <div class="uui-footer01_form-block w-form">
-              <form id="email-form" name="email-form" data-name="Email Form" method="post" class="uui-footer01_form" netlify>
-                <input class="uui-form_input w-input" maxlength="256" name="Email" data-name="Email" placeholder="Электронная почта" type="email" id="Email" required="">
+              <form id="email-form" name="newsletter" data-name="Email Form" method="POST" class="uui-footer01_form" data-netlify="true" netlify-honeypot="bot-field">
+                <input type="hidden" name="form-name" value="newsletter">
+                <p style="display: none;">
+                  <label>Don't fill this out if you're human: <input name="bot-field"></label>
+                </p>
+                <input class="uui-form_input w-input" maxlength="256" name="email" data-name="Email" placeholder="Электронная почта" type="email" id="Email" required="">
                 <input type="submit" data-wait="Пожалуйста, ждите..." class="uui-button is-button-small w-button" value="Подписаться">
               </form>
               <div class="uui-text-size-small">We care about your data in our <a href="#" class="uui-text-style-link">privacy policy</a>.</div>
