@@ -7,9 +7,14 @@
     </a>
     <nav role="navigation" class="uui-navbar01_menu w-nav-menu">
       <div class="uui-navbar01_menu-left">
-        <a href="#" class="uui-navbar01_link w-nav-link">Services in UAE</a>
-        <a href="#" class="uui-navbar01_link w-nav-link">Page</a>
-        <div data-hover="true" data-delay="300" data-w-id="73afa81c-448a-a8fb-c68b-ac680d82898c" class="uui-navbar01_menu-dropdown w-dropdown">
+        <a href="/style-guide/" class="uui-navbar01_link w-nav-link">Style Guide</a>
+        {# Динамический список страниц из админки, отсортированный по order #}
+        {% set navPages = collections.all | eleventyNavigation %}
+        {% for entry in navPages %}
+        <a href="{{ entry.url | url }}" class="uui-navbar01_link w-nav-link">{{ entry.title }}</a>
+        {% endfor %}
+        {# Временно закомментированный дропдаун #}
+        {# <div data-hover="true" data-delay="300" data-w-id="73afa81c-448a-a8fb-c68b-ac680d82898c" class="uui-navbar01_menu-dropdown w-dropdown">
           <div class="uui-navbar01_dropdown-toggle w-dropdown-toggle">
             <div class="uui-dropdown-icon w-embed"><svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -92,7 +97,7 @@
             </div>
           </nav>
         </div>
-        <a href="{{ '/contact' | url }}" class="uui-navbar01_link w-nav-link">Contacts</a>
+        #}
       </div>
       <div class="uui-navbar01_menu-right">
         <div class="uui-navbar01_button-wrapper">

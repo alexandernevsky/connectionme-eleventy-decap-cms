@@ -1,0 +1,115 @@
+/* Variable Fonts Support - Ligatures and Variable Font Features */
+
+/* Inter Variable Font - supports weight axis (100-900) */
+@supports (font-variation-settings: normal) {
+  /* Enable ligatures and common typographic features for Inter */
+  body,
+  .uui-text-size-small,
+  .uui-text-size-medium,
+  .uui-text-size-large,
+  .uui-text-size-xlarge,
+  .uui-heading-small,
+  .uui-heading-medium,
+  .uui-heading-large,
+  .uui-heading-xlarge,
+  .uui-heading-xxlarge,
+  h1, h2, h3, h4, h5, h6,
+  p, span, div, a, li, td, th {
+    font-feature-settings: 
+      "liga" 1,        /* Standard ligatures */
+      "calt" 1,        /* Contextual alternates */
+      "kern" 1,        /* Kerning */
+      "onum" 1,        /* Oldstyle numerals */
+      "pnum" 1,        /* Proportional numerals */
+      "tnum" 0,        /* Tabular numerals (off) */
+      "lnum" 0,        /* Lining numerals (off) */
+      "zero" 1,        /* Slashed zero */
+      "ss01" 1,        /* Stylistic set 1 */
+      "ss02" 0,        /* Stylistic set 2 (off) */
+      "ss03" 0,        /* Stylistic set 3 (off) */
+      "ss04" 0,        /* Stylistic set 4 (off) */
+      "ss05" 0,        /* Stylistic set 5 (off) */
+      "ss06" 0,        /* Stylistic set 6 (off) */
+      "ss07" 0,        /* Stylistic set 7 (off) */
+      "ss08" 0;        /* Stylistic set 8 (off) */
+    font-variation-settings: 
+      "wght" var(--font-weight, 400),  /* Weight axis */
+      "slnt" 0;                          /* Slant axis (0 = normal) */
+  }
+
+  /* Fine-tune weight for headings */
+  h1, h2, h3, h4, h5, h6,
+  .uui-heading-small,
+  .uui-heading-medium,
+  .uui-heading-large,
+  .uui-heading-xlarge,
+  .uui-heading-xxlarge {
+    font-variation-settings: 
+      "wght" var(--heading-weight, 600),
+      "slnt" 0;
+  }
+
+  /* EB Garamond Variable Font - supports weight axis (400-800) */
+  .d2q_subheading_ebg,
+  .d2q_inter-font,
+  em, i, .italic {
+    font-feature-settings: 
+      "liga" 1,        /* Standard ligatures */
+      "calt" 1,        /* Contextual alternates */
+      "kern" 1,        /* Kerning */
+      "onum" 1,        /* Oldstyle numerals */
+      "pnum" 1,        /* Proportional numerals */
+      "swsh" 1,        /* Swash alternates */
+      "cswh" 1,        /* Contextual swash */
+      "hist" 1,        /* Historical forms */
+      "salt" 1,        /* Stylistic alternates */
+      "ss01" 1,        /* Stylistic set 1 */
+      "ss02" 1,        /* Stylistic set 2 */
+      "ss03" 0,        /* Stylistic set 3 (off) */
+      "ss04" 0,        /* Stylistic set 4 (off) */
+      "ss05" 0,        /* Stylistic set 5 (off) */
+      "ss06" 0,        /* Stylistic set 6 (off) */
+      "ss07" 0,        /* Stylistic set 7 (off) */
+      "ss08" 0;        /* Stylistic set 8 (off) */
+    font-variation-settings: 
+      "wght" var(--garamond-weight, 400),
+      "opsz" var(--optical-size, 16);    /* Optical size axis */
+  }
+
+  /* Enhanced ligatures for code and technical content */
+  code, pre, kbd, samp {
+    font-feature-settings: 
+      "liga" 1,
+      "calt" 1,
+      "kern" 1,
+      "zero" 1,
+      "ss01" 1;
+  }
+
+  /* Disable ligatures for numbers in tables and forms */
+  table, .table,
+  input[type="number"],
+  input[type="tel"],
+  .no-ligatures {
+    font-feature-settings: 
+      "liga" 0,
+      "calt" 0,
+      "tnum" 1,        /* Tabular numerals */
+      "lnum" 1;        /* Lining numerals */
+  }
+}
+
+/* CSS Variables for easy weight control */
+:root {
+  --font-weight: 400;           /* Default body weight */
+  --heading-weight: 600;        /* Default heading weight */
+  --garamond-weight: 400;       /* Default Garamond weight */
+  --optical-size: 16;           /* Default optical size */
+}
+
+/* Optional: Smooth weight transitions */
+body,
+h1, h2, h3, h4, h5, h6 {
+  transition: font-variation-settings 0.3s ease;
+}
+
