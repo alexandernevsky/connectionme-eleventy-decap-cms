@@ -8,17 +8,40 @@ pagination:
 permalink: "authors/index.html"
 ---
 
-<h1>{{ title }}</h1>
+<header class="uui-section_header07">
+  <div class="uui-page-padding-3">
+    <div class="uui-container-large-3">
+      <div class="uui-padding-vertical-xhuge-3">
+        <div class="w-layout-grid uui-header07_component">
+          <div class="uui-header07_content-left">
+            <h1 class="uui-heading-large">{{ title }}</h1>
+          </div>
+          <div class="uui-header07_content-right">
+            <div class="uui-text-size-xlarge-2">{{ metaDescription }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
-<section>
-  {% for author in pagination.items %}
-    <article>
-      <h3>
-        <a href="/authors/{{ author | slug }}">{{ author | safe }}</a>
-      </h3>
-    </article>
-  {% endfor %}
-  <nav>
-    <a href="{{ '/blog/' | url }}">← Blog index</a>
-  </nav>
+<section class="uui-section_content">
+  <div class="uui-page-padding-3">
+    <div class="uui-container-large-3">
+      <div class="uui-padding-vertical-xhuge-3">
+        <div class="w-richtext">
+          {% for author in pagination.items %}
+            <article style="margin-bottom: 1.5rem;">
+              <h3>
+                <a href="/authors/{{ author | slug }}">{{ author | safe }}</a>
+              </h3>
+            </article>
+          {% endfor %}
+        </div>
+        <nav>
+          <p><a href="{{ '/blog/' | url }}">← Blog index</a></p>
+        </nav>
+      </div>
+    </div>
+  </div>
 </section>

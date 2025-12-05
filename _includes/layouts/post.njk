@@ -3,29 +3,74 @@ layout: layouts/base.njk
 section: post
 ---
 
+<header class="uui-section_header07">
+  <div class="uui-page-padding-3">
+    <div class="uui-container-large-3">
+      <div class="uui-padding-vertical-xhuge-3">
+        <div class="w-layout-grid uui-header07_component">
+          <div class="uui-header07_content-left">
+            <h1 class="uui-heading-large">{{ title }}</h1>
+          </div>
+          <div class="uui-header07_content-right">
+            <div class="uui-text-size-xlarge-2">
+              <time datetime="{{ page.date | machineDate }}">{{ page.date | readableDate }}</time>
+              {% if author %}
+              <span> by <a href="/authors/{{ author | slug }}/">{{ author }}</a></span>
+              {% endif %}
+            </div>
+            {% if summary %}
+            <div class="uui-text-size-xlarge-2" style="margin-top: 1rem;">{{ summary }}</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
 <article>
-  <h1>{{ title }}</h1>
-  <p>
-    <small>
-      <time datetime="{{ page.date | machineDate }}">{{ page.date | readableDate }}</time> by <a href="/authors/{{ author | slug }}/">{{ author }}</a>
-    </small>
-  </p>
-
-  {{ content | safe }}
-
-  {% if tags %}
-    <p>
-    {% for tag in tags %}
-      {%- if tag != "post" -%}
-        {% set tagUrl %}/tags/{{ tag }}/{% endset %}
-        <a href="{{ tagUrl | url }}" rel="tag">{{ tag }}</a>
-      {%- endif -%}
-    {% endfor %}
-    </p>
-  {% endif %}
-
+  <section class="uui-section_content">
+    <div class="uui-page-padding-3">
+      <div class="uui-container-large-3">
+        <div class="uui-padding-vertical-xhuge-3">
+          <div class="w-richtext">
+            {{ content | safe }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </article>
 
-<nav>
-  <a href="{{ '/blog/' | url }}">← Blog index</a>
+{% if tags %}
+<section class="uui-section_content">
+  <div class="uui-page-padding-3">
+    <div class="uui-container-large-3">
+      <div class="uui-padding-vertical-xhuge-3">
+        <div class="w-richtext">
+          <p>
+            {% for tag in tags %}
+              {%- if tag != "post" -%}
+                {% set tagUrl %}/tags/{{ tag }}/{% endset %}
+                <a href="{{ tagUrl | url }}" rel="tag">{{ tag }}</a>{% if not loop.last %}, {% endif %}
+              {%- endif -%}
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<nav class="uui-section_content">
+  <div class="uui-page-padding-3">
+    <div class="uui-container-large-3">
+      <div class="uui-padding-vertical-xhuge-3">
+        <div class="w-richtext">
+          <p><a href="{{ '/blog/' | url }}">← Blog index</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
 </nav>

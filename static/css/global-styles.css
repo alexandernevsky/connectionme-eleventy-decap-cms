@@ -81,3 +81,29 @@ font-size: inherit;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Предотвращение горизонтального скролла */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+.page-wrapper {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Убеждаемся, что секция логотипов не создает горизонтальный скролл */
+.uui-logo-loop_component {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.uui-section_logos04 {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+

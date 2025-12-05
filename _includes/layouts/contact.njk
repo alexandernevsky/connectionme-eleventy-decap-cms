@@ -2,8 +2,48 @@
 layout: layouts/base.njk
 section: contact
 ---
-<h1>{{ title }}</h1>
 
-{{ content | safe }}
+<header class="uui-section_header07">
+  <div class="uui-page-padding-3">
+    <div class="uui-container-large-3">
+      <div class="uui-padding-vertical-xhuge-3">
+        <div class="w-layout-grid uui-header07_component">
+          <div class="uui-header07_content-left">
+            <h1 class="uui-heading-large">{{ title }}</h1>
+          </div>
+          <div class="uui-header07_content-right">
+            {% if description or metaDescription %}
+            <div class="uui-text-size-xlarge-2">{{ description or metaDescription }}</div>
+            {% else %}
+            <div class="uui-text-size-xlarge-2">Get in touch with us.</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
-{% include "components/form.njk" %}
+{% if content %}
+<section class="uui-section_content">
+  <div class="uui-page-padding-3">
+    <div class="uui-container-large-3">
+      <div class="uui-padding-vertical-xhuge-3">
+        <div class="w-richtext">
+          {{ content | safe }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="uui-section_content">
+  <div class="uui-page-padding-3">
+    <div class="uui-container-large-3">
+      <div class="uui-padding-vertical-xhuge-3">
+        {% include "components/form.njk" %}
+      </div>
+    </div>
+  </div>
+</section>

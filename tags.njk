@@ -11,15 +11,37 @@ pagination:
 permalink: /tags/{{ tag }}/
 layout: layouts/base.njk
 eleventyComputed:
-  title: "Tagged “{{ tag }}”"
-  metaDescription: "All posts from the Blog tagged with “{{ tag }}”"
+  title: 'Tagged "{{ tag }}"'
+  metaDescription: 'All posts from the Blog tagged with "{{ tag }}"'
 ---
 
-<h1>Tagged “{{ tag }}”</h1>
+<header class="uui-section_header07">
+  <div class="uui-page-padding-3">
+    <div class="uui-container-large-3">
+      <div class="uui-padding-vertical-xhuge-3">
+        <div class="w-layout-grid uui-header07_component">
+          <div class="uui-header07_content-left">
+            <h1 class="uui-heading-large">{{ title }}</h1>
+          </div>
+          <div class="uui-header07_content-right">
+            <div class="uui-text-size-xlarge-2">{{ metaDescription }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
-{% set postslist = collections[tag] %}
-{% include "components/postslist.njk" %}
-
-<nav>
-  <a href="{{ '/blog/' | url }}">← Blog index</a>
-</nav>
+<section class="uui-section_content">
+  <div class="uui-page-padding-3">
+    <div class="uui-container-large-3">
+      <div class="uui-padding-vertical-xhuge-3">
+        {% set postslist = collections[tag] %}
+        {% include "components/postslist.njk" %}
+        <nav>
+          <p><a href="{{ '/blog/' | url }}">← Blog index</a></p>
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
