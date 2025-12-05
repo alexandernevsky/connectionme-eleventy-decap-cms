@@ -1,6 +1,6 @@
 @font-face {
   font-family: Inter Variable;
-  src: url('../fonts/InterVariable.ttf') format("truetype");
+  src: url('/static/fonts/InterVariable.ttf') format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: Inter Variable;
-  src: url('../fonts/InterVariable-Italic.ttf') format("truetype");
+  src: url('/static/fonts/InterVariable-Italic.ttf') format("truetype");
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: EB Garamond;
-  src: url('../fonts/EBGaramond-Italic-VariableFont_wght.ttf') format("truetype");
+  src: url('/static/fonts/EBGaramond-Italic-VariableFont_wght.ttf') format("truetype");
   font-weight: 400 800;
   font-style: italic;
   font-display: swap;
@@ -24,7 +24,7 @@
 
 @font-face {
   font-family: EB Garamond;
-  src: url('../fonts/EBGaramond-VariableFont_wght.ttf') format("truetype");
+  src: url('/static/fonts/EBGaramond-VariableFont_wght.ttf') format("truetype");
   font-weight: 400 800;
   font-style: normal;
   font-display: swap;
@@ -949,7 +949,7 @@ figcaption {
   border-width: 1px;
   border-color: var(--primary600);
   background-color: var(--primary50);
-  background-image: url('../images/check-circle.svg');
+  background-image: url('/static/img/check-circle.svg');
   background-position: 50%;
   background-repeat: no-repeat;
   background-size: auto;
@@ -1144,7 +1144,7 @@ figcaption {
   border-color: var(--primary600);
   background-color: var(--primary50);
   box-shadow: none;
-  background-image: url('../images/check.svg');
+  background-image: url('/static/img/check.svg');
   background-position: 50%;
   background-repeat: no-repeat;
   background-size: .875rem .875rem;
@@ -3573,7 +3573,7 @@ figcaption {
 }
 
 .d2q_hero-header {
-  background-image: url('../images/cme_hero_cover.webp');
+  background-image: url('/static/img/cme_hero_cover.webp');
   background-position: 0 100%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -3959,7 +3959,7 @@ figcaption {
   border-color: var(--primary600);
   background-color: var(--primary50);
   box-shadow: none;
-  background-image: url('../images/check.svg');
+  background-image: url('/static/img/check.svg');
   background-position: 50%;
   background-repeat: no-repeat;
   background-size: .875rem .875rem;
@@ -5373,7 +5373,7 @@ figcaption {
   }
 
   .uui-styleguide_logomark-bg-2 {
-    background-image: url('../images/untitled-ui-logomark.svg');
+    background-image: url('/static/img/untitled-ui-logomark.svg');
     background-position: 50%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -7078,28 +7078,28 @@ figcaption {
 
 @font-face {
   font-family: 'Inter Variable';
-  src: url('../fonts/InterVariable.ttf') format('truetype');
+  src: url('/static/fonts/InterVariable.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Inter Variable';
-  src: url('../fonts/InterVariable-Italic.ttf') format('truetype');
+  src: url('/static/fonts/InterVariable-Italic.ttf') format('truetype');
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'EB Garamond';
-  src: url('../fonts/EBGaramond-Italic-VariableFont_wght.ttf') format('truetype');
+  src: url('/static/fonts/EBGaramond-Italic-VariableFont_wght.ttf') format('truetype');
   font-weight: 400 800;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'EB Garamond';
-  src: url('../fonts/EBGaramond-VariableFont_wght.ttf') format('truetype');
+  src: url('/static/fonts/EBGaramond-VariableFont_wght.ttf') format('truetype');
   font-weight: 400 800;
   font-style: normal;
   font-display: swap;
