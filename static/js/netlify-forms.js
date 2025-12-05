@@ -16,7 +16,9 @@
     }
   }
   
-  // Функция для полного отключения Webflow обработки формы
+  // Функция для отключения Webflow обработки формы
+  // ВАЖНО: НЕ удаляем классы w-form, w-checkbox, w-input и т.д. - они нужны для CSS стилей!
+  // Удаляем только обработчики событий и data-атрибуты, которые используются для JS обработки
   function disableWebflowForm(form) {
     try {
       // Удаляем все обработчики событий от Webflow
@@ -26,14 +28,8 @@
         } catch(e) {}
       }
       
-      // Удаляем классы, которые Webflow использует для обработки
-      form.classList.remove('w-form');
-      const wrapper = form.closest('.w-form');
-      if (wrapper) {
-        wrapper.classList.remove('w-form');
-      }
-      
-      // Удаляем data-атрибуты Webflow
+      // НЕ удаляем классы w-form, w-checkbox, w-input и т.д. - они нужны для CSS стилей!
+      // Удаляем только data-атрибуты Webflow, которые используются для JS обработки
       form.removeAttribute('data-wf-page-id');
       form.removeAttribute('data-wf-element-id');
       
@@ -41,6 +37,8 @@
       if (!form.getAttribute('action')) {
         form.setAttribute('action', window.location.pathname || '/');
       }
+      
+      // Все классы остаются нетронутыми - они нужны для стилей Webflow
     } catch(e) {
       console.error('Error disabling Webflow form:', e);
     }
@@ -78,7 +76,7 @@
           event.stopImmediatePropagation();
           event.stopPropagation();
           
-          // Отключаем Webflow обработку
+          // Отключаем Webflow обработку (сохраняем все классы для стилей)
           disableWebflowForm(form);
           
           // НЕ вызываем preventDefault() - позволяем стандартную отправку
