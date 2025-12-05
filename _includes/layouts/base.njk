@@ -1,23 +1,103 @@
 <!doctype html>
-<html {% if section %} data-current="{{ section }}"{% endif %} lang="en">
+<html {% if section %} data-current="{{ section }}"{% endif %} lang="en" data-wf-page="69328512873fdd916262f3d3" data-wf-site="69328511873fdd916262f363">
 
 	{% include "components/head.njk" %}
 
 	<body>
+		<div class="page-wrapper">
+			<div class="global-styles w-embed">
+				<style>
+				/* Snippet gets rid of top margin on first element in any rich text*/
+				.w-richtext>:first-child {
+					margin-top: 0;
+				}
+				/* Snippet gets rid of bottom margin on last element in any rich text*/
+				.w-richtext>:last-child, .w-richtext ol li:last-child, .w-richtext ul li:last-child {
+					margin-bottom: 0;
+				}
+				/* Snippet makes all link elements listed below to inherit color from their parent */
+				a, 
+				.w-tab-link,
+				.w-nav-link,
+				.w-dropdown-btn,
+				.w-dropdown-toggle,
+				.w-dropdown-link
+				{
+				color: inherit;
+				}
+				/* Snippet prevents all click and hover interaction with an element */
+				.clickable-off {
+					pointer-events: none;
+				}
+				/* Snippet enables all click and hover interaction with an element */
+				.clickable-on{
+					pointer-events: auto;
+				}
+				/* Snippet enables you to add class of div-square which creates and maintains a 1:1 dimension of a div.*/
+				.div-square::after {
+					content: "";
+					display: block;
+					padding-bottom: 100%;
+				}
+				/*Hide focus outline for main content element*/
+				main:focus-visible {
+					outline: -webkit-focus-ring-color auto 0px;
+				}
+				/* Make sure containers never lose their center alignment*/
+				.container-medium, .container-small, .container-large {
+					margin-right: auto !important;
+					margin-left: auto !important;
+				}
+				/*Reset selects, buttons, and links styles*/
+				.w-input, .w-select, a {
+				color: inherit;
+				text-decoration: inherit;
+				font-size: inherit;
+				}
+				/*Apply "..." after 3 lines of text */
+				.text-style-3lines {
+					display: -webkit-box;
+					overflow: hidden;
+					-webkit-line-clamp: 3;
+					-webkit-box-orient: vertical;
+				}
+				/* Apply "..." after 2 lines of text */
+				.text-style-2lines {
+					display: -webkit-box;
+					overflow: hidden;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+				}
+				/* Apply "..." at 100% width */
+				.truncate-width { 
+					width: 100%; 
+					white-space: nowrap; 
+					overflow: hidden; 
+					text-overflow: ellipsis; 
+				}
+				/* Removes native scrollbar */
+				.no-scrollbar {
+					-ms-overflow-style: none;
+					overflow: -moz-scrollbars-none;
+				}
+				.no-scrollbar::-webkit-scrollbar {
+					display: none;
+				}
+				</style>
+			</div>
 
-		<header>
-			<em>
-				<a href="{{ '/' | url }}">{{ metadata.title }}</a>
-			</em>
 			{% include "components/nav.njk" %}
-		</header>
 
-		<main>
-			{{ content | safe }}
-		</main>
+			<main class="main-wrapper">
+				{{ content | safe }}
+			</main>
 
-		{% include "components/footer.njk" %}
+			{% include "components/footer.njk" %}
+		</div>
 
+		<!-- Webflow JS -->
+		<script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=69328511873fdd916262f363" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+		<script src="/static/js/webflow.js" type="text/javascript"></script>
 	</body>
 
 </html>
