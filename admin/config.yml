@@ -43,4 +43,14 @@ collections:
         fields:
           - { label: "Key", name: "key", widget: "string" }
           - { label: "Order", name: "order", widget: "number", default: 0 }
+      - label: "Hero Section (только для главной страницы)"
+        name: "hero"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Подзаголовок (можно использовать <br> для переноса строки)", name: "subheading", widget: "text", required: false, hint: "Например: Консалтинг по банковским<br>и налоговым вопросам" }
+          - { label: "Заголовок H1 (можно использовать <br> для переноса строки)", name: "title", widget: "text", required: false, hint: "Например: Связываем<br>ваш бизнес<br>в ОАЭ" }
+          - { label: "Описание", name: "description", widget: "text", required: false }
+          - { label: "Текст первой кнопки", name: "button1Text", widget: "string", required: false }
+          - { label: "Текст второй кнопки", name: "button2Text", widget: "string", required: false }
       - { label: "Body", name: "body", widget: "markdown" }
