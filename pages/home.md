@@ -7,3 +7,6 @@ eleventyNavigation:
   key: Home
   order: 0
 ---
+Контент страницы
+
+еще контент

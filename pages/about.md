@@ -1,19 +1,21 @@
 ---
-title: About us
-metaDescription: This is a sample meta description. If one is not present in your page/post's front matter, the default metadata.description will be used instead.
+title: About company
+metaDescription: This is a sample meta description. If one is not present in
+  your page/post's front matter, the default metadata.description will be used
+  instead.
 date: 2017-01-01T00:00:00.000Z
 permalink: /about/index.html
 eleventyNavigation:
   key: About
   order: 1
 ---
-Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
+> Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
 
 Add a few line breaks in here to test:-
-Capitalize  
-on  
-low  
-hanging  
+Capitalize\
+on\
+low\
+hanging\
 fruit  
 
 ## Our services
