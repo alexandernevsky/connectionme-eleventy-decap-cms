@@ -24,9 +24,4 @@
     -moz-osx-font-smoothing: grayscale;
   }
   </style>
-  
-  {% set css %}
-    {% include "assets/css/inline.css" %}
-  {% endset %}
-  <style>{{ css | cssmin | safe }}</style>
 </head>

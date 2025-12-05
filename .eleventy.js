@@ -82,8 +82,6 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("static/js");
   eleventyConfig.addPassthroughCopy("static/fonts");
   eleventyConfig.addPassthroughCopy("admin/");
-  // We additionally output a copy of our CSS for use in Decap CMS previews
-  eleventyConfig.addPassthroughCopy("_includes/assets/css/inline.css");
 
   /* Markdown Plugins */
   let markdownIt = require("markdown-it");

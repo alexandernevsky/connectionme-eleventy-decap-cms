@@ -5,8 +5,7 @@ import Page from "/admin/preview-templates/page.js";
 CMS.registerPreviewTemplate("blog", Post);
 CMS.registerPreviewTemplate("pages", Page);
 
-CMS.registerPreviewStyle("/_includes/assets/css/inline.css");
-// Register any CSS file on the home page as a preview style
+// Register all CSS files from the home page as preview styles (includes Webflow CSS)
 fetch("/")
   .then(response => response.text())
   .then(html => {
