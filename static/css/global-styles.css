@@ -75,3 +75,9 @@ font-size: inherit;
     display: none;
 }
 
+/* Font smoothing - улучшение качества отображения шрифтов */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
