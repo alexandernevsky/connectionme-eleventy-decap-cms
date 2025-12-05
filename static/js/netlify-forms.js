@@ -52,25 +52,46 @@
     try {
       var form = event.target;
       
-      // Проверяем, что это форма с data-netlify="true"
-      if (form && form.tagName === 'FORM' && form.hasAttribute('data-netlify')) {
-        console.log('%cNetlify Forms: Intercepted form submission', 'color: blue; font-weight: bold;', form.name || form.id || 'unnamed');
+      console.log('Netlify Forms: Submit event detected on', form ? (form.name || form.id || form.tagName) : 'unknown');
+      
+      // Проверяем, что это форма
+      if (form && form.tagName === 'FORM') {
+        // Проверяем наличие data-netlify (может быть "true" или просто атрибут)
+        var hasNetlify = form.hasAttribute('data-netlify');
+        var netlifyValue = form.getAttribute('data-netlify');
         
-        // Полностью останавливаем распространение события
-        event.stopImmediatePropagation();
-        event.stopPropagation();
+        // Также проверяем по имени формы (fallback)
+        var isKnownForm = form.name === 'contact' || 
+                         form.name === 'contact-section' || 
+                         form.name === 'newsletter';
         
-        // Отключаем Webflow обработку
-        disableWebflowForm(form);
-        
-        // НЕ вызываем preventDefault() - позволяем стандартную отправку
-        // Форма отправится стандартным HTML способом на Netlify
-        
-        var action = form.getAttribute('action') || window.location.pathname || '/';
-        console.log('Netlify Forms: Form will submit to', action);
-        
-        // Возвращаем true чтобы форма отправилась
-        return true;
+        if (hasNetlify || isKnownForm) {
+          // Если атрибут отсутствует, но это известная форма, добавляем его
+          if (!hasNetlify && isKnownForm) {
+            console.log('Netlify Forms: Adding data-netlify="true" to form', form.name);
+            form.setAttribute('data-netlify', 'true');
+          }
+          
+          console.log('%cNetlify Forms: Intercepted form submission', 'color: blue; font-weight: bold;', form.name || form.id || 'unnamed');
+          
+          // Полностью останавливаем распространение события
+          event.stopImmediatePropagation();
+          event.stopPropagation();
+          
+          // Отключаем Webflow обработку
+          disableWebflowForm(form);
+          
+          // НЕ вызываем preventDefault() - позволяем стандартную отправку
+          // Форма отправится стандартным HTML способом на Netlify
+          
+          var action = form.getAttribute('action') || window.location.pathname || '/';
+          console.log('Netlify Forms: Form will submit to', action);
+          
+          // Возвращаем true чтобы форма отправилась
+          return true;
+        } else {
+          console.log('Netlify Forms: Form does not have data-netlify, allowing normal submission');
+        }
       }
     } catch(e) {
       console.error('Error in submit handler:', e);
@@ -80,14 +101,107 @@
   // Добавляем обработчик в capture phase (самая ранняя фаза)
   document.addEventListener('submit', submitHandler, true);
   
+  // Защита от удаления атрибута data-netlify
+  // Используем MutationObserver для отслеживания изменений форм
+  function protectNetlifyForms() {
+    try {
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'data-netlify') {
+            var target = mutation.target;
+            if (target.tagName === 'FORM') {
+              var isKnownForm = target.name === 'contact' || 
+                               target.name === 'contact-section' || 
+                               target.name === 'newsletter';
+              
+              // Если атрибут был удален, восстанавливаем его
+              if (!target.hasAttribute('data-netlify') && isKnownForm) {
+                console.warn('Netlify Forms: data-netlify attribute was removed from form', target.name, '- restoring it');
+                target.setAttribute('data-netlify', 'true');
+              }
+            }
+          }
+          
+          // Также проверяем, если форма была изменена другим способом
+          if (mutation.type === 'childList' || mutation.type === 'attributes') {
+            var forms = document.querySelectorAll('form[name="contact"], form[name="contact-section"], form[name="newsletter"]');
+            forms.forEach(function(form) {
+              if (!form.hasAttribute('data-netlify')) {
+                console.log('Netlify Forms: Restoring data-netlify for form', form.name);
+                form.setAttribute('data-netlify', 'true');
+              }
+            });
+          }
+        });
+      });
+      
+      // Наблюдаем за всеми формами
+      var forms = document.querySelectorAll('form');
+      forms.forEach(function(form) {
+        observer.observe(form, {
+          attributes: true,
+          attributeFilter: ['data-netlify', 'action', 'method'],
+          childList: false,
+          subtree: false
+        });
+      });
+      
+      console.log('Netlify Forms: MutationObserver set up to protect forms');
+    } catch(e) {
+      console.warn('Netlify Forms: MutationObserver not supported:', e);
+    }
+  }
+  
   // Инициализируем после загрузки DOM
   function initNetlifyForms() {
     try {
-      var netlifyForms = document.querySelectorAll('form[data-netlify="true"]');
-      console.log('Netlify Forms: Found', netlifyForms.length, 'form(s) with data-netlify="true"');
+      // Ищем все формы на странице для отладки
+      var allForms = document.querySelectorAll('form');
+      console.log('Netlify Forms: Total forms on page:', allForms.length);
+      
+      // Выводим информацию о всех формах
+      allForms.forEach(function(form, index) {
+        var hasNetlify = form.hasAttribute('data-netlify');
+        var netlifyValue = form.getAttribute('data-netlify');
+        console.log('Form #' + index + ':', {
+          name: form.name || 'unnamed',
+          id: form.id || 'no-id',
+          hasDataNetlify: hasNetlify,
+          dataNetlifyValue: netlifyValue,
+          method: form.method,
+          action: form.action || 'no action',
+          classes: form.className
+        });
+      });
+      
+      // Ищем формы с data-netlify="true" или просто data-netlify
+      var netlifyForms = document.querySelectorAll('form[data-netlify="true"], form[data-netlify]');
+      console.log('Netlify Forms: Found', netlifyForms.length, 'form(s) with data-netlify attribute');
       
       if (netlifyForms.length === 0) {
-        console.warn('Netlify Forms: No forms found! Check that forms have data-netlify="true" attribute.');
+        console.warn('Netlify Forms: No forms found with data-netlify!');
+        console.warn('Netlify Forms: Trying to find forms by name...');
+        
+        // Пробуем найти формы по имени
+        var contactForm = document.querySelector('form[name="contact"]');
+        var contactSectionForm = document.querySelector('form[name="contact-section"]');
+        var newsletterForm = document.querySelector('form[name="newsletter"]');
+        
+        if (contactForm) {
+          console.log('Found form[name="contact"], adding data-netlify="true"');
+          contactForm.setAttribute('data-netlify', 'true');
+          netlifyForms = document.querySelectorAll('form[data-netlify]');
+        }
+        if (contactSectionForm) {
+          console.log('Found form[name="contact-section"], adding data-netlify="true"');
+          contactSectionForm.setAttribute('data-netlify', 'true');
+          netlifyForms = document.querySelectorAll('form[data-netlify]');
+        }
+        if (newsletterForm) {
+          console.log('Found form[name="newsletter"], adding data-netlify="true"');
+          newsletterForm.setAttribute('data-netlify', 'true');
+          netlifyForms = document.querySelectorAll('form[data-netlify]');
+        }
       }
       
       netlifyForms.forEach(function(form) {
@@ -108,14 +222,27 @@
   
   // Инициализируем сразу и после загрузки DOM
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initNetlifyForms);
+    document.addEventListener('DOMContentLoaded', function() {
+      initNetlifyForms();
+      protectNetlifyForms();
+    });
   } else {
     // DOM уже загружен, инициализируем сразу
     initNetlifyForms();
+    protectNetlifyForms();
   }
   
   // Также пробуем инициализировать через небольшую задержку на случай если DOM еще не готов
-  setTimeout(initNetlifyForms, 100);
+  setTimeout(function() {
+    initNetlifyForms();
+    protectNetlifyForms();
+  }, 100);
+  
+  // Защита после загрузки Webflow JS (если он загружается позже)
+  setTimeout(function() {
+    initNetlifyForms();
+    protectNetlifyForms();
+  }, 1000);
   
   // Обработка успешной отправки (Netlify добавляет ?success=true в URL)
   if (window.location.search.includes('success=true')) {
