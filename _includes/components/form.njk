@@ -1,13 +1,29 @@
-<form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-  <input type="hidden" name="form-name" value="contact">
-  <p style="display: none;">
-    <label>Don't fill this out if you're human: <input name="bot-field"></label>
-  </p>
-  <label for="name">Name</label>
-  <input type="text" name="name" id="name" autocomplete="name" placeholder="Your name" title="Please enter your name" required>
-  <label for="email">Email</label>
-  <input type="email" name="email" id="email" autocomplete="email" placeholder="Your email address" title="The domain portion of the email address is invalid (the portion after the @)." pattern="^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*(\.\w{2,})+$" required>
-  <label for="message">Message</label>
-  <textarea name="message" id="message" placeholder="Write your message here" rows="7" required></textarea>
-  <button type="submit">Send Message</button>
-</form>
+<div class="w-form">
+  <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="uui-contact05_form">
+    <input type="hidden" name="form-name" value="contact">
+    <p style="display: none;">
+      <label>Don't fill this out if you're human: <input name="bot-field"></label>
+    </p>
+    <div class="uui-form-field-wrapper">
+      <label for="name" class="uui-field-label">Name</label>
+      <input class="uui-form_input-2 w-input" maxlength="256" name="name" type="text" id="name" autocomplete="name" placeholder="Your name" title="Please enter your name" required>
+    </div>
+    <div class="uui-form-field-wrapper">
+      <label for="email" class="uui-field-label">Email</label>
+      <input class="uui-form_input-2 w-input" maxlength="256" name="email" type="email" id="email" autocomplete="email" placeholder="Your email address" title="The domain portion of the email address is invalid (the portion after the @)." pattern="^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*(\.\w{2,})+$" required>
+    </div>
+    <div class="uui-form-field-wrapper">
+      <label for="message" class="uui-field-label">Message</label>
+      <textarea id="message" name="message" maxlength="5000" placeholder="Write your message here" rows="7" required class="uui-form_input-2 text-area w-input"></textarea>
+    </div>
+    <div class="uui-form-button-wrapper">
+      <input type="submit" data-wait="Please wait..." class="uui-button w-button" value="Send Message">
+    </div>
+  </form>
+  <div class="success-message-2 w-form-done">
+    <div class="success-text">Thank you! Your submission has been received!</div>
+  </div>
+  <div class="error-message-2 w-form-fail">
+    <div class="error-text">Oops! Something went wrong while submitting the form.</div>
+  </div>
+</div>
